@@ -1,3 +1,27 @@
+SpaceX UI Project
+
+---
+
+<b>Technology used</b>\
+1:React Js(react hooks)\
+2:Javscript\
+3:HTML\
+4:CSS3\
+5:Bootstrap
+
+Bootstrap Grid and CSS flex has used for the responsive view.\
+In react following concept has used for the app development:-\
+1:Fetch Api has used for calling http apis\
+2:react hooks used in the application for managing state.\
+3:Application code has pused into 'master' branch in git.
+
+<b>Heroku Deployement Steps</b>\
+1:Created a Free Heroku Account and then created a new app .\
+2:Installed Heroku CLI in localsystem and pushed code to heroku git and deployed.
+
+<b>Application Link:(https://spacex-project-assignment.herokuapp.com/)</b>
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
