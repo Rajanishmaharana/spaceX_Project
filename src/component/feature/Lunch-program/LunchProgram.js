@@ -9,12 +9,16 @@ import { useStateValue } from "../../../context/StateProvider";
 function LunchProgram() {
   const [programList, setProgramList] = useState([]);
   const [lunchYears, setLunchYears] = useState([]);
-  const [{ filterValue }, dispatch] = useStateValue();
+  const [{ filterValue ,isLoading}, dispatch] = useStateValue();
 
   useEffect(() => {
-    getFirstLunchPrograms();
+     
+          getFirstLunchPrograms();
+
   }, []);
 
+
+//filter api call with query params..
   useEffect(() => {
     let arr = [];
     if (Object.keys(filterValue).length > 0) {
@@ -38,12 +42,15 @@ function LunchProgram() {
   }, [filterValue]);
 
   const getCustomlunchPrograms = async (paramsdata) => {
-    let result = await httpGateaway.getSpaceXLunchesData(paramsdata);
-    setProgramList([...result]);
+          let result = await httpGateaway.getSpaceXLunchesData(paramsdata);
+            setProgramList([...result]); 
+      return true;
   };
 
   const getFirstLunchPrograms = async () => {
-    getCustomlunchPrograms([{ key: "limit", value: "100" }]);
+     dispatch({type:"LODER_ON",value:true})
+        await getCustomlunchPrograms([{ key: "limit", value: "100" }]);
+     dispatch({type:"LODER_OFF",value:false})   
   };
 
   return (
@@ -60,7 +67,7 @@ function LunchProgram() {
             <Row>
               {programList.map((val, key) => {
                 return (
-                  <Col md="6" lg="3" key={key}>
+                  <Col md="6" lg="3" key={key} className="d-flex align-items-stretch">
                     <EachProgram  programData={val} />
                   </Col>
                 );
@@ -71,10 +78,13 @@ function LunchProgram() {
             </Row>
           </Container>
         </section>
+
       </div>
+
       <footer>
         <div className="footer_content">Developed by:Rajanish</div>
       </footer>
+
     </div>
   );
 }
