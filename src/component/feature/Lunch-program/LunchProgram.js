@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col,Spinner } from "react-bootstrap";
 import httpGateaway from "../../shared/http-operation";
 import EachProgram from "../EachProgram/EachProgram";
 import "./LunchProgram.css";
@@ -11,10 +11,10 @@ function LunchProgram() {
   const [lunchYears, setLunchYears] = useState([]);
   const [{ filterValue ,isLoading}, dispatch] = useStateValue();
 
-  useEffect(() => {
-     
-          getFirstLunchPrograms();
-
+  useEffect(async() => {
+       dispatch({type:"LODER_ON",value:true})
+         await getFirstLunchPrograms();
+       dispatch({type:"LODER_OFF",value:false})   
   }, []);
 
 
@@ -42,15 +42,14 @@ function LunchProgram() {
   }, [filterValue]);
 
   const getCustomlunchPrograms = async (paramsdata) => {
-          let result = await httpGateaway.getSpaceXLunchesData(paramsdata);
-            setProgramList([...result]); 
+      let result = await httpGateaway.getSpaceXLunchesData(paramsdata);
+          setProgramList([...result]); 
       return true;
   };
 
   const getFirstLunchPrograms = async () => {
-     dispatch({type:"LODER_ON",value:true})
         await getCustomlunchPrograms([{ key: "limit", value: "100" }]);
-     dispatch({type:"LODER_OFF",value:false})   
+      return true;
   };
 
   return (
@@ -63,8 +62,12 @@ function LunchProgram() {
           <FilterMenu />
         </aside>
         <section>
+
           <Container fluid>
             <Row>
+              {
+                isLoading?(<div className="loder"><Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner></div>):null
+              }
               {programList.map((val, key) => {
                 return (
                   <Col md="6" lg="3" key={key} className="d-flex align-items-stretch">
@@ -72,9 +75,7 @@ function LunchProgram() {
                   </Col>
                 );
               })}
-              {programList.length == 0 ? (
-                <Col className="text-center no_result">No Result</Col>
-              ) : null}
+              
             </Row>
           </Container>
         </section>

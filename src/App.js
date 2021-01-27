@@ -12,9 +12,7 @@ function App() {
   console.log(isLoading)
   return (
     <div className="App">
-        {
-        	isLoading?(<div className="loder"><Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner></div>):null
-      	}
+
         <LunchProgram />
     </div>
   );
